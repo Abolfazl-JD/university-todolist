@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+      # bind
+      # named
+      # anonymous
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+    env_file:
+      - .env
+
+  database:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    # named 
+    volumes:
+      - todo-mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+
+volumes:
+  todo-mongo:
+  
